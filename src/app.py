@@ -35,19 +35,24 @@ def handle_hello():
     return jsonify(response_body), 200
 
 
-@app.route('/member/<int:member:id>', methods=['GET'])
-def handle_member(member_id):
-    return { "id": member_id}, 200
+@app.route('/member/<int:member_id>', methods=['GET'])
+def get_member(member_id):
+    member = jackson_family.get_member(member_id)
+    print(member)
+    return jsonify(member), 200
 
 
-@app.route('/add-member', methods=['POST'])
+@app.route('/member', methods=['POST'])
 def add_member():
     member = request.get_json()
     jackson_family.add_member(member)
+    return jsonify('success'), 200
 
 
-
-
+@app.route('/member/<int:member_id>', methods=['DELETE'])
+def delete_member(member_id):
+    jackson_family.delete_member(member_id)
+    return jsonify({'done':'deleted'}), 200
 
 
 
